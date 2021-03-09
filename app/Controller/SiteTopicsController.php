@@ -60,9 +60,8 @@ class TopicsController extends AppController {
 			}
 			$options = array('conditions' => array('Topic.category_id' => $id));
 			$topics = $this->Topic->find('all', $options);
-			debug($topics);
-			die( __LINE__ . ' died' );
-			$this->set('topic', $topics);
+
+			$this->set('topics', $topics);
 		}
 
 /**

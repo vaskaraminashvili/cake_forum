@@ -40,6 +40,35 @@ class PostsController extends AppController {
 		$this->set('post', $this->Post->find('first', $options));
 	}
 
+	/**
+	 * view method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+		public function viewSite($id = null) {
+			$this->layout = 'site';
+			$this->Post->recursive =1;
+			if (!$this->Post->exists($id)) {
+				throw new NotFoundException(__('Invalid post'));
+			}
+			$options = array(
+				'conditions' => array('Post.' . $this->Post->primaryKey => $id),
+				'contain' => array(
+					'Reply' => array(
+						'order' => array(
+							'reply_date DESC'
+						)
+					)
+				)
+			);
+			$post= $this->Post->find('first', $options);
+			// debug($post);
+			// die( __LINE__ . ' died' );
+			$this->set('post', $post);
+		}
+
 /**
  * add method
  *

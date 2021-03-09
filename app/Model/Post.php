@@ -45,16 +45,6 @@ class Post extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'topic_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'user_id' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
@@ -75,13 +65,6 @@ class Post extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Topic' => array(
-			'className' => 'Topic',
-			'foreignKey' => 'topic_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',
