@@ -6,6 +6,7 @@ App::uses('AppModel', 'Model');
  * @property Topic $Topic
  */
 class Category extends AppModel {
+	public $primaryKey = 'hash_id';
 
 /**
  * Validation rules

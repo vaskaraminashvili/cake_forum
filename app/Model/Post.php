@@ -8,6 +8,7 @@ App::uses('AppModel', 'Model');
  * @property Reply $Reply
  */
 class Post extends AppModel {
+	public $primaryKey = 'hash_id';
 
 /**
  * Validation rules
@@ -16,6 +17,16 @@ class Post extends AppModel {
  */
 	public $validate = array(
 		'title' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'hash_id' => array(
 			'notBlank' => array(
 				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
@@ -92,6 +103,22 @@ class Post extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+		)
+	);
+
+	public $hasAndBelongsToMany = array(
+		'Post' => array(
+			'className' => 'Tag',
+			'joinTable' => 'posts_tags',
+			'foreignKey' => 'post_id',
+			'associationForeignKey' => 'tag_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
 		)
 	);
 

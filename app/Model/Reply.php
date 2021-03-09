@@ -24,9 +24,9 @@ class Reply extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'reply_date' => array(
-			'datetime' => array(
-				'rule' => array('datetime'),
+		'hash_id' => array(
+			'notBlank' => array(
+				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -34,9 +34,9 @@ class Reply extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'topic_id' => array(
-			'numeric' => array(
-				'rule' => array('numeric'),
+		'reply_date' => array(
+			'datetime' => array(
+				'rule' => array('datetime'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -64,13 +64,6 @@ class Reply extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Topic' => array(
-			'className' => 'Topic',
-			'foreignKey' => 'topic_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id',

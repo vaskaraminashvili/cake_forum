@@ -15,7 +15,7 @@
                      <?php
                     echo $this->Html->link($item['Post']['title'] , array(
                         'action' => '../posts/',
-                        $item['Post']['id']
+                        $item['Post']['hash_id']
                     )); ?>
                 </h2>
                 <p><?php echo $item['Post']['text'] ?></p>

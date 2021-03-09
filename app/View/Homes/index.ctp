@@ -20,7 +20,7 @@
                                  <?php
                                 echo $this->Html->link($child->name , array(
                                     'action' => '../category/',
-                                    $child->id
+                                    $child->hash_id
                                 )); ?>
                                 <span class="badge bg-secondary ms-auto"><?=$child->total?></span>
                             </div>

@@ -13,13 +13,14 @@ class HomesController extends AppController {
 
 
     public function index(){
+
         $this->Category->recursive = 0;
        $categories = $this->Category->query("SELECT
                 categories.*,
                 COUNT( posts.id ) AS Total
             FROM
                 categories
-                INNER JOIN posts ON categories.id = posts.category_id
+                INNER JOIN posts ON categories.hash_id = posts.category_id
             GROUP BY
                 categories.`name`
         ");
@@ -40,6 +41,7 @@ class HomesController extends AppController {
 
     }
     public function posts($id = null){
+
         $this->Post->recursive =-1;
 
         $options = array(
@@ -48,7 +50,7 @@ class HomesController extends AppController {
         );
 
         $category= $this->Category->find('first',  array(
-            'conditions' => array('Category.' . $this->Post->primaryKey => $id),
+            'conditions' => array('Category.hash_id' => $id),
             'recursive' => -1, // int
             'limit' => 1
         ));

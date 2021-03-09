@@ -15,6 +15,8 @@ class PostsController extends AppController {
  */
 	public $components = array('Paginator');
 
+	    var $uses = array('Post', 'Reply');
+
 /**
  * index method
  *
@@ -48,13 +50,12 @@ class PostsController extends AppController {
 	 * @return void
 	 */
 		public function viewSite($id = null) {
+
 			$this->layout = 'site';
-			$this->Post->recursive =1;
-			if (!$this->Post->exists($id)) {
-				throw new NotFoundException(__('Invalid post'));
-			}
+			// $this->Post->recursive =1;
 			$options = array(
-				'conditions' => array('Post.' . $this->Post->primaryKey => $id),
+				'conditions' => array('Post.hash_id' => $id),
+				'recursive' => 1,
 				'contain' => array(
 					'Reply' => array(
 						'order' => array(
@@ -64,8 +65,11 @@ class PostsController extends AppController {
 				)
 			);
 			$post= $this->Post->find('first', $options);
-			// debug($post);
+
+			// debug();
 			// die( __LINE__ . ' died' );
+
+			$this->set('user', $this->Auth->user());
 			$this->set('post', $post);
 		}
 
@@ -135,4 +139,28 @@ class PostsController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+	/**
+	 * add method
+	 *
+	 * @return void
+	 */
+		public function addReply() {
+			// debug($this->request->data);
+			// die( __LINE__ . ' died' );
+			// die( __LINE__ . ' died' );
+			if ($this->request->is('post')) {
+				$this->Reply->create();
+				$this->request->data['reply_date'] = date("Y-m-d H:i:s");
+				if ($this->Reply->save($this->request->data)) {
+					$this->Flash->success(__('The post has been saved.'));
+					return $this->redirect(array('action' => './' , $this->request->data['post_id']));
+				} else {
+					$this->Flash->error(__('The post could not be saved. Please, try again.'));
+				}
+			}
+			die( __LINE__ . ' died' );
+			$topics = $this->Post->Topic->find('list');
+			$users = $this->Post->User->find('list');
+			$this->set(compact('topics', 'users'));
+		}
 }
