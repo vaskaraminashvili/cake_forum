@@ -49,20 +49,24 @@ class PostsController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-		public function viewSite($id = null) {
-
+		public function show($id = null) {
 			$this->layout = 'site';
 			// $this->Post->recursive =1;
 
 			$options = array(
 				'conditions' => array('Post.hash' => $id),
 				'contain' => array(
-					'User',
+
 					'Reply' => array(
 						'order' => array(
-							'reply_date DESC'
-						)
-					)
+							'date ASC'
+						),
+						'User' => array(
+							'fields' => array(
+								'username'
+							)
+						),
+					),
 				),
 			    // 'recursive' => 1
 			);
@@ -130,6 +134,7 @@ class PostsController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
+
 		if (!$this->Post->exists($id)) {
 			throw new NotFoundException(__('Invalid post'));
 		}
@@ -147,22 +152,50 @@ class PostsController extends AppController {
 	 * @return void
 	 */
 		public function addReply() {
-			// debug($this->request->data);
+
 			// die( __LINE__ . ' died' );
 			// die( __LINE__ . ' died' );
 			if ($this->request->is('post')) {
+				$this->loadModel('Reply');
 				$this->Reply->create();
-				$this->request->data['reply_date'] = date("Y-m-d H:i:s");
+				$this->request->data['Reply']['date'] = date("Y-m-d H:i:s");
+				$post =$this->Post->find('first',array(
+					'conditions' => array('Post.hash' => $this->request->data['Reply']['hash']),
+					'fields' =>array('id')
+				));
+				$this->request->data['Reply']['post_id'] = $post['Post']['id'];
+
 				if ($this->Reply->save($this->request->data)) {
 					$this->Flash->success(__('The post has been saved.'));
-					return $this->redirect(array('action' => './' , $this->request->data['post_id']));
+					return $this->redirect('./show/'.$this->request->data['Reply']['hash']);
+					// return $this->redirect(array('action' => './' , $this->request->data['post_id']));
 				} else {
 					$this->Flash->error(__('The post could not be saved. Please, try again.'));
 				}
 			}
-			die( __LINE__ . ' died' );
-			$topics = $this->Post->Topic->find('list');
+
 			$users = $this->Post->User->find('list');
 			$this->set(compact('topics', 'users'));
+		}
+	/**
+	 * delete method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+		public function deletePost($id = null) {
+			$this->Post->id = $this->Post->field('id', array('hash' => $id));
+			// if (!$this->Post->exists($id)) {
+			// 	throw new NotFoundException(__('Invalid post'));
+			// }
+			$this->request->allowMethod('post');
+
+			if ($this->Post->saveField('active' , 0)) {
+				$this->Flash->success(__('The post has been deleted.'));
+			} else {
+				$this->Flash->error(__('The post could not be deleted. Please, try again.'));
+			}
+			return $this->redirect('/categories/show/aJZ1wS4oWBor');
 		}
 }

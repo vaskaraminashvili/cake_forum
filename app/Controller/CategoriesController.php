@@ -106,6 +106,7 @@ class CategoriesController extends AppController {
 	}
 
 	public function show($hash = null){
+
 		$this->layout = 'site';
         $category= $this->Category->find('first',  array(
         	'fields' => array(
@@ -115,13 +116,13 @@ class CategoriesController extends AppController {
             'contain' => array(
             	'Post' => array(
             		'fields' => array(
-            			'id' , 'hash' , 'title' , 'text'
+            			'id' , 'hash' , 'title' , 'text' , 'reply_count'
             		),
-            		'conditions' => array(
-            			'AND' => array(
-            				'Post.type' => 2
-            			)
-            		),
+                    'conditions' => array(
+                        'AND' => array(
+                            'Post.active' => 1
+                        )
+                    ),
             		'order' => array(
             			'Post.id DESC'
             		)
@@ -130,6 +131,7 @@ class CategoriesController extends AppController {
 
         ));
         // debug($category);
+        // die( __LINE__ . ' died' );
 
         $this->set('category', $category);
 	}

@@ -28,7 +28,7 @@
 	Router::connect('/', array('controller' => 'pages', 'action' => 'index'));
     Router::connect('/categories/show/*', array('controller' => 'categories', 'action' => 'show'));
     Router::connect('/posts/addReply', array('controller' => 'posts', 'action' => 'addReply'));
-    // Router::connect('/posts/*', array('controller' => 'posts', 'action' => 'viewSite'));
+    Router::connect('/posts/show/*', array('controller' => 'posts', 'action' => 'show'));
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */

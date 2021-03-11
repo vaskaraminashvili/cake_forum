@@ -14,13 +14,17 @@
                 // debug($levelOne['Category']);
                 // die( __LINE__ . ' died' );
                 ?>
+
             <div class="col-xl-12 ms-xl-3">
                 <?php echo $this->Html->link(
                     $levelOne['Category']['name'],
                     '/categories/show/'. $levelOne['Category']['hash'],
                     array('class' => 'btn btn-link',)
                 ); ?>
-                <?php echo $levelOne['Category']['post_count'] ?>
+                <?php if ($levelOne['Category']['post_count'] != null && $levelOne['Category']['post_count'] > 0): ?>
+
+                <span class="badge bg-warning text-dark"> <?php echo $levelOne['Category']['post_count'] ?>  Posts</span>
+                <?php endif ?>
 
             </div>
                         <?php if (!empty($levelOne['Category']['LevelTwo'][0]['id'])): ?>

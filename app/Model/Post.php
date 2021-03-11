@@ -53,8 +53,7 @@ class Post extends AppModel {
 				'limit' => '',
 				'offset' => '',
 				'exclusive' => '',
-				'finderQuery' => '',
-				'counterQuery' => ''
+				'finderQuery' => ''
 			)
 		);
 
