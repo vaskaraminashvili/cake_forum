@@ -11,17 +11,22 @@
                 </div>
                 <?php if (!empty($item->children)): ?>
                     <?php foreach ($item->children as $key => $child):
-                        // debug($child);
-                        // die( __LINE__ . ' died' );
+
                     ?>
                         <div class="row ms-xl-3 mb-xl-3">
                             <div class="col-xl-2 bg-warning">child category icon</div>
                             <div class="col-xl-10 bg-light">
                                  <?php
-                                echo $this->Html->link($child->name , array(
-                                    'action' => '../category/',
-                                    $child->hash_id
-                                )); ?>
+                                 echo $this->Html->link(
+                                     $child->name,
+                                     '/categories/show/' . $child->hash,
+                                     array('class' => 'button')
+                                 );
+                                // echo $this->Html->link($child->name , array(
+                                //     'action' => '../category/',
+                                //     $child->hash_id
+                                // ));
+                                 ?>
                                 <span class="badge bg-secondary ms-auto"><?=$child->total?></span>
                             </div>
                         </div>

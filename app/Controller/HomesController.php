@@ -7,20 +7,19 @@ class HomesController extends AppController {
      *
      * @var array
      */
-        public $components = array('Paginator');
+    public $components = array('Paginator');
 
-    var $uses = array('Category' , 'Post');
+
 
 
     public function index(){
-
-        $this->Category->recursive = 0;
-       $categories = $this->Category->query("SELECT
+        $this->loadModel('Category');
+        $categories = $this->Category->query("SELECT
                 categories.*,
                 COUNT( posts.id ) AS Total
             FROM
                 categories
-                INNER JOIN posts ON categories.hash_id = posts.category_id
+                INNER JOIN posts ON categories.hash = posts.category_id
             GROUP BY
                 categories.`name`
         ");
@@ -42,7 +41,7 @@ class HomesController extends AppController {
     }
     public function posts($id = null){
 
-        $this->Post->recursive =-1;
+        // $this->Post->recursive =-1;
 
         $options = array(
             'conditions' => array('Post.category_id' => $id),

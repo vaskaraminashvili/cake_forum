@@ -21,8 +21,11 @@ class CategoriesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Category->recursive = 0;
-		$this->set('categories', $this->Paginator->paginate());
+		$this->paginate = array(
+			'order' => 'Category.id',
+		);
+		$categories = $this->paginate('Category');
+		$this->set('categories', $categories);
 	}
 
 /**
@@ -48,6 +51,7 @@ class CategoriesController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Category->create();
+			$this->request->data['Category']['hash'] = hash('sha1', microtime().'categories');
 			if ($this->Category->save($this->request->data)) {
 				$this->Flash->success(__('The category has been saved.'));
 				return $this->redirect(array('action' => 'index'));
@@ -99,5 +103,34 @@ class CategoriesController extends AppController {
 			$this->Flash->error(__('The category could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function show($hash = null){
+		$this->layout = 'site';
+        $category= $this->Category->find('first',  array(
+        	'fields' => array(
+        		'id' , 'hash' , 'name'
+        	),
+            'conditions' => array('Category.hash' => $hash),
+            'contain' => array(
+            	'Post' => array(
+            		'fields' => array(
+            			'id' , 'hash' , 'title' , 'text'
+            		),
+            		'conditions' => array(
+            			'AND' => array(
+            				'Post.type' => 2
+            			)
+            		),
+            		'order' => array(
+            			'Post.id DESC'
+            		)
+            	)
+            ),
+
+        ));
+        // debug($category);
+
+        $this->set('category', $category);
 	}
 }

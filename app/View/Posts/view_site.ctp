@@ -11,6 +11,17 @@
                     <?php echo $post['Post']['text'] ?>
                 </div>
             </div>
+            <div class="row mb-xl-5">
+                <div class="col-xl-12">
+                    <div class="alert alert-primary" role="alert">
+                      Tags Associetied with post
+                      after addd to filter with tags
+                    </div>
+                    <?php foreach ($post['Tag'] as $key => $tag): ?>
+                        <span class="badge rounded-pill bg-secondary"><?php echo $tag['name'] ?></span>
+                    <?php endforeach ?>
+                </div>
+            </div>
                 <?php foreach ($post['Reply'] as $key => $reply):
                     // debug($reply);
                     // die;

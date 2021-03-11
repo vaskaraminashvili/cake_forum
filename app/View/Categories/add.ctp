@@ -4,9 +4,15 @@
 		<legend><?php echo __('Add Category'); ?></legend>
 	<?php
 		echo $this->Form->input('parent');
-		echo $this->Form->input('level');
 		echo $this->Form->input('name');
 		echo $this->Form->input('description');
+		echo $this->Form->input('active' ,
+			array(
+				'type' => 'select',
+				'options' => array(
+					array(0 => 'Not active' ,1 => 'Active'),
+				)
+		));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
@@ -16,7 +22,5 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Categories'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Topics'), array('controller' => 'topics', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Topic'), array('controller' => 'topics', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

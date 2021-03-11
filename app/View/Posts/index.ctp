@@ -7,7 +7,6 @@
 			<th><?php echo $this->Paginator->sort('title'); ?></th>
 			<th><?php echo $this->Paginator->sort('text'); ?></th>
 			<th><?php echo $this->Paginator->sort('date'); ?></th>
-			<th><?php echo $this->Paginator->sort('topic_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('user_id'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
@@ -19,9 +18,7 @@
 		<td><?php echo h($post['Post']['title']); ?>&nbsp;</td>
 		<td><?php echo h($post['Post']['text']); ?>&nbsp;</td>
 		<td><?php echo h($post['Post']['date']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($post['Topic']['id'], array('controller' => 'topics', 'action' => 'view', $post['Topic']['id'])); ?>
-		</td>
+
 		<td>
 			<?php echo $this->Html->link($post['User']['id'], array('controller' => 'users', 'action' => 'view', $post['User']['id'])); ?>
 		</td>
@@ -52,8 +49,6 @@
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Post'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Topics'), array('controller' => 'topics', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Topic'), array('controller' => 'topics', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Replies'), array('controller' => 'replies', 'action' => 'index')); ?> </li>

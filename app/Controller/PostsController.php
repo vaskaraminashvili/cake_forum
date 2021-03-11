@@ -15,7 +15,7 @@ class PostsController extends AppController {
  */
 	public $components = array('Paginator');
 
-	    var $uses = array('Post', 'Reply');
+	    var $uses = array('Post');
 
 /**
  * index method
@@ -53,21 +53,23 @@ class PostsController extends AppController {
 
 			$this->layout = 'site';
 			// $this->Post->recursive =1;
+
 			$options = array(
-				'conditions' => array('Post.hash_id' => $id),
-				'recursive' => 1,
+				'conditions' => array('Post.hash' => $id),
 				'contain' => array(
+					'User',
 					'Reply' => array(
 						'order' => array(
 							'reply_date DESC'
 						)
 					)
-				)
+				),
+			    // 'recursive' => 1
 			);
 			$post= $this->Post->find('first', $options);
-
-			// debug();
+			// debug($post);
 			// die( __LINE__ . ' died' );
+
 
 			$this->set('user', $this->Auth->user());
 			$this->set('post', $post);

@@ -8,7 +8,57 @@ App::uses('AppModel', 'Model');
  * @property Reply $Reply
  */
 class Post extends AppModel {
-	public $primaryKey = 'hash_id';
+
+
+	// The Associations below have been created with all possible keys, those that are not needed can be removed
+
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
+		public $belongsTo = array(
+			'User' => array(
+				'className' => 'User',
+				'foreignKey' => 'user_id',
+				'conditions' => '',
+				'fields' => '',
+				'order' => ''
+			),
+			'Category' => array(
+				'className' => 'Category',
+				'foreignKey' => 'category_id',
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+				'counterCache' => 'post_count',
+			),
+		);
+
+
+
+	/**
+	 * hasMany associations
+	 *
+	 * @var array
+	 */
+		public $hasMany = array(
+			'Reply' => array(
+				'className' => 'Reply',
+				'foreignKey' => 'post_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+				'limit' => '',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			)
+		);
+
+
 
 /**
  * Validation rules
@@ -68,58 +118,5 @@ class Post extends AppModel {
 		),
 	);
 
-	// The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * belongsTo associations
- *
- * @var array
- */
-	public $belongsTo = array(
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'user_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		)
-	);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Reply' => array(
-			'className' => 'Reply',
-			'foreignKey' => 'post_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
-
-	public $hasAndBelongsToMany = array(
-		'Post' => array(
-			'className' => 'Tag',
-			'joinTable' => 'posts_tags',
-			'foreignKey' => 'post_id',
-			'associationForeignKey' => 'tag_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-		)
-	);
 
 }

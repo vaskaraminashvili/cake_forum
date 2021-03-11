@@ -5,9 +5,15 @@
 	<?php
 		echo $this->Form->input('id');
 		echo $this->Form->input('parent');
-		echo $this->Form->input('level');
 		echo $this->Form->input('name');
 		echo $this->Form->input('description');
+		echo $this->Form->input('Active' , array(
+			'type' => 'select',
+			'options' => array(
+				0 => 'Not active',
+				1 => 'Active',
+			)
+		));
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
@@ -18,7 +24,5 @@
 
 		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Category.id')), array('confirm' => __('Are you sure you want to delete # %s?', $this->Form->value('Category.id')))); ?></li>
 		<li><?php echo $this->Html->link(__('List Categories'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Topics'), array('controller' => 'topics', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Topic'), array('controller' => 'topics', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

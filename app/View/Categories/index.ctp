@@ -5,7 +5,6 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('parent'); ?></th>
-			<th><?php echo $this->Paginator->sort('level'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('description'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -15,8 +14,7 @@
 	<?php foreach ($categories as $category): ?>
 	<tr>
 		<td><?php echo h($category['Category']['id']); ?>&nbsp;</td>
-		<td><?php echo h($category['Category']['parent']); ?>&nbsp;</td>
-		<td><?php echo h($category['Category']['level']); ?>&nbsp;</td>
+		<td><?php echo h($category['Category']['parent_id']); ?>&nbsp;</td>
 		<td><?php echo h($category['Category']['name']); ?>&nbsp;</td>
 		<td><?php echo h($category['Category']['description']); ?>&nbsp;</td>
 		<td class="actions">
@@ -46,7 +44,5 @@
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Category'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Topics'), array('controller' => 'topics', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Topic'), array('controller' => 'topics', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

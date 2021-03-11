@@ -30,12 +30,62 @@ App::uses('AppController', 'Controller');
  */
 class PagesController extends AppController {
 
-/**
- * This controller does not use a model
- *
- * @var array
- */
-	public $uses = array();
+
+
+	public function index(){
+		$this->request->data['Service']['hash'] = hash('sha1', microtime().'services');
+		$this->loadModel('Category');
+		$this->Category->bindModel(
+		    array('hasMany' => array(
+		            'LevelOne' => array(
+		                'className' => 'Category',
+		                'foreignKey' => 'parent_id',
+		            )
+		        )
+		    )
+		);
+		$this->Category->LevelOne->bindModel(
+		    array('hasMany' => array(
+		            'LevelTwo' => array(
+		                'className' => 'Category',
+		                'foreignKey' => 'parent_id',
+		            )
+		        )
+		    )
+		);
+		$categories=  $this->Category->find('all' , array(
+			'conditions' => array(
+				'AND' => array(
+					'Category.active' => 1,
+					'OR' => array(
+						array('Category.parent_id' => 0) ,
+						array('Category.parent_id' => null) ,
+					)
+				),
+			),
+			'contain' => array(
+
+				'LevelOne' => array(
+					'conditions' => array(
+						'AND' => array(
+							'LevelOne.active' => 1,
+							'LevelOne.parent_id >' => 0,
+
+						)
+					),
+					'LevelTwo' => array(
+
+					),
+
+				),
+
+			)
+		));
+		// debug($categories);
+		// die( __LINE__ . ' died' );
+		$this->set('categories' , $categories);
+		$this->layout = 'site';
+	}
 
 /**
  * Displays a view

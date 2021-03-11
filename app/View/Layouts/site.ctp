@@ -79,7 +79,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 			<?php echo $this->Flash->render(); ?>
 
-			<?php echo $this->fetch('content'); ?>
+<?php echo $this->fetch('content'); ?>
 
 	<div class="container-fluid mt-xl-5">
 		<div class="row">
