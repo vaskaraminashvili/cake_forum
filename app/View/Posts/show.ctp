@@ -2,6 +2,13 @@
         <div class="row">
             <div class="col-xl-12 py-3 bg-secondary"></div>
             <div class="col-xl-12 py-3 bg-info"></div>
+            <div class="col-xl-12 py-3 bg-light">
+                <?php foreach ($post['PostTag'] as $key => $tag): ?>
+
+                <span class="badge rounded-pill bg-success me-xl-3"><?php echo $tag['Tag']['name'] ?></span>
+                <?php endforeach ?>
+
+            </div>
             <div class="col-xl-12">
                 <div class="row mb-xl-5">
                     <div class="col-xl-12">
@@ -41,29 +48,15 @@
                 </div>
 
                     <?php endforeach ?>
+                <?php if (AuthComponent::user()): ?>
 
                 <div class="row">
                     <div class="col-xl-12">
 
                         <?php echo $this->Form->create('Reply', array('type' => 'POST' , 'url' => '/posts/addReply')); ?>
-
+                        <?php echo $this->Form->hidden('user_id' , array('value' => AuthComponent::user('id'))) ?>
+                        <?php echo $this->Form->hidden('hash' , array('value' =>  $post['Post']['hash'])) ?>
                             <div class="mb-3">
-                                <?php
-                                    echo $this->Form->input('user_id' , array(
-                                        'type' => 'hidden',
-                                        'label' => false,
-                                        'div' => false,
-                                        'value' => $user['id'],
-                                    ));
-                                ?>
-                                <?php
-                                    echo $this->Form->input('hash' , array(
-                                        'type' => 'hidden',
-                                        'label' => false,
-                                        'div' => false,
-                                        'value' => $post['Post']['hash'],
-                                    ));
-                                ?>
 
                                 <label for="exampleFormControlInput1" class="form-label">User name</label>
                                 <?php
@@ -71,7 +64,7 @@
                                         'type' => 'text',
                                         'label' => false,
                                         'class' => 'form-control',
-                                        'value' => $user['username'],
+                                        'value' => AuthComponent::user('username'),
                                         'readonly' => true
                                     ));
                                 ?>
@@ -100,6 +93,8 @@
                         </form>
                     </div>
                 </div>
+
+                <?php endif ?>
             </div>
         </div>
     </div>

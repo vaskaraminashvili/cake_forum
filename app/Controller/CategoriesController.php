@@ -15,6 +15,8 @@ class CategoriesController extends AppController {
  */
 	public $components = array('Paginator');
 
+
+
 /**
  * index method
  *

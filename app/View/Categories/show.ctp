@@ -1,5 +1,6 @@
 <?php
-// debug($category['Post']);
+// debug($category['Post'][0]['category_id']);
+// debug(AuthComponent::user());
 // die( __LINE__ . ' died' );
 ?>
     <div class="container">
@@ -47,4 +48,64 @@
             <?php endforeach ?>
 
         </div>
+        <?php if (AuthComponent::user()): ?>
+
+        <div class="row">
+            <div class="col-xl-12">
+
+                <?php echo $this->Form->create('Post', array('type' => 'POST' , 'url' => '/posts/postAdd')); ?>
+
+                    <div class="mb-3">
+                        <?php echo $this->Form->hidden('user_id' , array('value' => AuthComponent::user('id') )) ?>
+                        <?php echo $this->Form->hidden('category_id' , array('value' => $category['Post'][0]['category_id'] )) ?>
+
+                        <label for="exampleFormControlInput1" class="form-label">User name</label>
+                        <?php
+                            echo $this->Form->input('username' , array(
+                                'type' => 'text',
+                                'label' => false,
+                                'class' => 'form-control',
+                                'value' => AuthComponent::user('username'),
+                                'readonly' => true
+                            ));
+                        ?>
+                    </div>
+                    <div class="mb-3">
+
+                        <label for="exampleFormControlInput1" class="form-label">TItle</label>
+                        <?php
+                            echo $this->Form->input('title' , array(
+                                'type' => 'text',
+                                'label' => false,
+                                'class' => 'form-control',
+                                'placeholder' => __('text sdf sdf sd '),
+                            ));
+                        ?>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                        <?php
+                        echo $this->Form->input('text', array(
+                            'type' => 'textarea',
+                            'label'=> false,
+                            'div'=>true,
+                            'class' => 'form-control',
+                            'id' => 'exampleFormControlTextarea1',
+                            'rows' => 6,
+                            'autocomplete' => "off",
+                            'placeholder' => __('text sdf sdf sd '),
+
+                        ));
+                        ?>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Submit Reply</button>
+                    </div>
+
+                <?php echo $this->Form->end(); ?>
+                </form>
+            </div>
+        </div>
+
+        <?php endif ?>
     </div>

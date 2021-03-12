@@ -10,25 +10,21 @@ class Tag extends AppModel {
 
 	// The Associations below have been created with all possible keys, those that are not needed can be removed
 
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
-	public $hasAndBelongsToMany = array(
-		'Post' => array(
-			'className' => 'Post',
-			'joinTable' => 'posts_tags',
-			'foreignKey' => 'tag_id',
-			'associationForeignKey' => 'post_id',
-			'unique' => 'keepExisting',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'finderQuery' => '',
-		)
-	);
+
+
+	/**
+	 * belongsTo associations
+	 *
+	 * @var array
+	 */
+		public $hasMany = array(
+			'PostTag' => array(
+				'className' => 'PostTag',
+				'foreignKey' => 'post_id',
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+			),
+		);
 
 }

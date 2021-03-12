@@ -26,19 +26,32 @@ class Category extends AppModel {
 				'finderQuery' => '',
 				'counterQuery' => ''
 			),
-			// 'ChildCategory' => array(
-			// 	'className' => 'Category',
-			// 	'foreignKey' => 'parent_id',
-			// 	'dependent' => false,
-			// 	'conditions' => '',
-			// 	'fields' => '',
-			// 	'order' => '',
-			// 	'limit' => '',
-			// 	'offset' => '',
-			// 	'exclusive' => '',
-			// 	'finderQuery' => '',
-			// 	'counterQuery' => ''
-			// ),
+			'LevelOne' => array(
+				'className' => 'Category',
+				'foreignKey' => 'parent_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+				'limit' => '',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
+			'LevelTwo' => array(
+				'className' => 'Category',
+				'foreignKey' => 'parent_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+				'limit' => '',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
 		);
 
 

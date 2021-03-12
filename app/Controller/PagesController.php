@@ -35,24 +35,24 @@ class PagesController extends AppController {
 	public function index(){
 		$this->request->data['Service']['hash'] = hash('sha1', microtime().'services');
 		$this->loadModel('Category');
-		$this->Category->bindModel(
-		    array('hasMany' => array(
-		            'LevelOne' => array(
-		                'className' => 'Category',
-		                'foreignKey' => 'parent_id',
-		            )
-		        )
-		    )
-		);
-		$this->Category->LevelOne->bindModel(
-		    array('hasMany' => array(
-		            'LevelTwo' => array(
-		                'className' => 'Category',
-		                'foreignKey' => 'parent_id',
-		            )
-		        )
-		    )
-		);
+		// $this->Category->bindModel(
+		//     array('hasMany' => array(
+		//             'LevelOne' => array(
+		//                 'className' => 'Category',
+		//                 'foreignKey' => 'parent_id',
+		//             )
+		//         )
+		//     )
+		// );
+		// $this->Category->LevelOne->bindModel(
+		//     array('hasMany' => array(
+		//             'LevelTwo' => array(
+		//                 'className' => 'Category',
+		//                 'foreignKey' => 'parent_id',
+		//             )
+		//         )
+		//     )
+		// );
 		$categories=  $this->Category->find('all' , array(
 			'conditions' => array(
 				'AND' => array(

@@ -33,6 +33,7 @@ class Post extends AppModel {
 				'order' => '',
 				'counterCache' => 'post_count',
 			),
+
 		);
 
 
@@ -54,7 +55,14 @@ class Post extends AppModel {
 				'offset' => '',
 				'exclusive' => '',
 				'finderQuery' => ''
-			)
+			),
+			'PostTag' => array(
+				'className' => 'PostTag',
+				'foreignKey' => 'post_id',
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+			),
 		);
 
 
@@ -75,7 +83,7 @@ class Post extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'hash_id' => array(
+		'hash' => array(
 			'notBlank' => array(
 				'rule' => array('notBlank'),
 				//'message' => 'Your custom message here',
@@ -95,7 +103,7 @@ class Post extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'date' => array(
+		'created' => array(
 			'datetime' => array(
 				'rule' => array('datetime'),
 				//'message' => 'Your custom message here',
@@ -116,6 +124,12 @@ class Post extends AppModel {
 			),
 		),
 	);
+
+
+	public function beforeSave($options = array()) {
+		$this->data['Post']['hash'] = hash('sha1', microtime().'posts');
+	    return true;
+	}
 
 
 }

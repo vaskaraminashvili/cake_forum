@@ -34,10 +34,14 @@
                 <?php
                     echo $this->Html->link(
                         $levelTwo['Category']['name'],
-                        '/categories/show/'. $levelOne['Category']['hash'],
+                        '/categories/show/'. $levelTwo['Category']['hash'],
                         array('class' => 'btn btn-link',)
                     )
                 ?>
+                <?php if ($levelTwo['Category']['post_count'] != null && $levelTwo['Category']['post_count'] > 0): ?>
+
+                <span class="badge bg-warning text-dark"> <?php echo $levelTwo['Category']['post_count'] ?>  Posts</span>
+                <?php endif ?>
 
             </div>
                             <?php endforeach ?>

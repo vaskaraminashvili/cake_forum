@@ -14,8 +14,9 @@ class PostsController extends AppController {
  * @var array
  */
 	public $components = array('Paginator');
+    var $uses = array('Post');
 
-	    var $uses = array('Post');
+
 
 /**
  * index method
@@ -54,28 +55,41 @@ class PostsController extends AppController {
 			// $this->Post->recursive =1;
 
 			$options = array(
+
 				'conditions' => array('Post.hash' => $id),
 				'contain' => array(
-
 					'Reply' => array(
 						'order' => array(
 							'date ASC'
 						),
+
 						'User' => array(
 							'fields' => array(
-								'username'
+								'User.username'
+							),
+							'conditions' => array(
+								'User.active' => 1
 							)
 						),
 					),
+					'PostTag' => array(
+						'fields' => array(),
+						'conditions' => array(
+							'PostTag.active' => 1
+						),
+						'Tag' => array(
+							'fields' => array(
+								'name'
+							)
+						)
+
+					),
 				),
-			    // 'recursive' => 1
+
 			);
 			$post= $this->Post->find('first', $options);
 			// debug($post);
 			// die( __LINE__ . ' died' );
-
-
-			$this->set('user', $this->Auth->user());
 			$this->set('post', $post);
 		}
 
@@ -153,8 +167,6 @@ class PostsController extends AppController {
 	 */
 		public function addReply() {
 
-			// die( __LINE__ . ' died' );
-			// die( __LINE__ . ' died' );
 			if ($this->request->is('post')) {
 				$this->loadModel('Reply');
 				$this->Reply->create();
@@ -167,15 +179,12 @@ class PostsController extends AppController {
 
 				if ($this->Reply->save($this->request->data)) {
 					$this->Flash->success(__('The post has been saved.'));
-					return $this->redirect('./show/'.$this->request->data['Reply']['hash']);
+					return $this->redirect($this->referer());
 					// return $this->redirect(array('action' => './' , $this->request->data['post_id']));
 				} else {
 					$this->Flash->error(__('The post could not be saved. Please, try again.'));
 				}
 			}
-
-			$users = $this->Post->User->find('list');
-			$this->set(compact('topics', 'users'));
 		}
 	/**
 	 * delete method
@@ -184,18 +193,39 @@ class PostsController extends AppController {
 	 * @param string $id
 	 * @return void
 	 */
-		public function deletePost($id = null) {
-			$this->Post->id = $this->Post->field('id', array('hash' => $id));
-			// if (!$this->Post->exists($id)) {
-			// 	throw new NotFoundException(__('Invalid post'));
-			// }
-			$this->request->allowMethod('post');
+	public function deletePost($id = null) {
+		$this->Post->id = $this->Post->field('id', array('hash' => $id));
+		// if (!$this->Post->exists($id)) {
+		// 	throw new NotFoundException(__('Invalid post'));
+		// }
+		$this->request->allowMethod('post');
 
-			if ($this->Post->saveField('active' , 0)) {
-				$this->Flash->success(__('The post has been deleted.'));
-			} else {
-				$this->Flash->error(__('The post could not be deleted. Please, try again.'));
-			}
-			return $this->redirect('/categories/show/aJZ1wS4oWBor');
+		if ($this->Post->saveField('active' , 0)) {
+			$this->Flash->success(__('The post has been deleted.'));
+		} else {
+			$this->Flash->error(__('The post could not be deleted. Please, try again.'));
 		}
+		return $this->redirect('/categories/show/aJZ1wS4oWBor');
+	}
+
+	public function postsAdd(){
+		if ($this->request->is('post')) {
+
+			$this->Post->create();
+			// $this->request->data['Post']['date'] = date("Y-m-d H:i:s");
+
+			$this->request->data['Post']['active'] =1;
+
+			if ($this->Post->save($this->request->data)) {
+				$this->Flash->success(__('The post has been saved.'));
+				return $this->redirect($this->referer());
+				// return $this->redirect(array('action' => './' , $this->request->data['post_id']));
+			} else {
+				$this->Flash->error(__('The post could not be saved. Please, try again.'));
+			}
+		}
+
+	}
+
+
 }
